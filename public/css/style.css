@@ -1,0 +1,122 @@
+body{
+    background-color: #F0F1F3 !important;
+}
+*{
+    font-family: "Dubai";
+}
+.sidebar {
+    background-color: #183153;
+    height: 100vh;
+    width: 270px;
+  }
+  .top-navbar {
+    background-color: #183153 !important;
+  }
+  .top-navbar a {
+    color: #fff !important;
+  }
+  .sidebar li {
+    border-radius: 0px;
+    transition: all 1s;
+  }
+
+
+  ul.dropdown-menu{
+    border-radius: 0px;
+    background-color: #183153 !important;
+    color: #fff !important;
+  }
+
+
+  .dropdown-item  {
+    border-radius: 0px;
+    background-color: #183153 !important;
+    color: #fff !important;
+    right: 50px !important;
+    cursor: pointer !important;
+  }
+
+
+
+
+  .dropdown-item:hover {
+    background-color: #fff !important;
+    color: #183153!important;
+  }
+
+
+  #sub-menu{
+    right: 222px !important;
+  }
+  .content {
+    width: 100%;
+  }
+
+
+  .table-header,  .table-footer,.section-header{
+    background-color: #183153 !important;
+  }
+
+
+  .dropdown-toggle::after
+{
+    float:left !important;
+    margin-top: 7px;
+}
+
+
+.title{
+    background-color: #183153 !important;
+    color: #fff;
+}
+.bg-danger-dark{
+    background-color: #ac103f !important;
+
+}
+
+
+.bg-primary-dark{
+    background-color: #0960d1 !important;
+
+}
+
+.bg-success-dark{
+    background-color: #007965 !important;
+}
+
+
+.bg-gray-dark{
+    background-color:#344352  !important;
+}
+
+
+
+
+@media (max-width: 767px) {
+    .sidebar {
+      margin-right: -250px;
+      position: absolute;
+      min-height: 100vh;
+      z-index: 1;
+    }
+
+    .sidebar.active{
+          margin-right: 0px;
+    }
+
+    .close-btn,.show-sidebar{
+          visibility: visible;
+    }
+  }
+
+
+.exams-section .nav-link.active{
+    background: #183153 !important;
+    color: #fff !important;
+}
+
+.exams-section .nav-link {
+    color: #000 !important;
+}
+
+

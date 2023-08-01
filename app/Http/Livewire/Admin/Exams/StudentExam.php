@@ -1,0 +1,184 @@
+<?php
+
+namespace App\Http\Livewire\Admin\Exams;
+
+use App\Models\Exams;
+use App\Models\Groups;
+use App\Models\Levels;
+use App\Models\Shifts;
+use App\Models\Classes;
+use Livewire\Component;
+use App\Models\Sections;
+use App\Models\Subjects;
+use App\Models\Students_info;
+use App\Models\SubjectsDistribution;
+
+class StudentExam extends Component
+{
+
+
+    public $subjects;
+
+    public $subjects_distributions_id;
+    public $students_info_id;
+    public $shifts_id;
+    public $sections_id;
+    public $groups_id;
+    public $qu1 = 0;
+    public $ex1 = 0;
+    public $qu2 = 0;
+    public $ex2 = 0;
+    public $att = 0;
+    public $levels;
+    public $classes_id;
+    public $getAllLevels;
+    public $subjects_id;
+
+    public $name;
+
+
+    public $total;
+
+
+    public $updateId;
+
+    public $active  = false;
+
+    public $message_error = '';
+    public $message_success = '';
+
+    protected $rules = [
+        'subjects_distributions_id' => 'required',
+        'students_info_id' => 'required',
+        'shifts_id' => 'required',
+        'sections_id' => 'required',
+        'groups_id' => 'required',
+        'qu1' => 'required',
+        'ex1' => 'required',
+        'qu2' => 'required',
+        'ex2' => 'required',
+        'att' => 'required',
+        'levels' => 'required',
+        'classes_id' => 'required',
+    ];
+
+    public function mount()
+    {
+        $getLevels = Levels::where('active', '1')->get();
+
+        $this->getAllLevels = $getLevels;
+
+
+
+
+
+    }
+
+    public function render()
+    {
+        $classes = Classes::where('levels_id',    $this->levels)->get();
+        $groups = Groups::where('active',    '1')->get();
+        $shifts = Shifts::where('active',    '1')->get();
+        $sections = Sections::where('active',    '1')->get();
+        $subjects_distributions  = SubjectsDistribution::where('levels_id',    $this->levels)->where('classes_id', $this->classes_id)->get();
+
+        $this->name  = Students_info::where('id', '=' ,  $this->students_info_id )->first();
+
+
+
+        if($this->checkIfExamIsIn()){
+            $this->message_error = "عفوا هذه البيانات موجودة مسبقاً";
+            $this->active = true;
+        }else{
+            $this->message_error = "";
+            $this->active = false;
+        }
+
+        return view('livewire.admin.exams.student-exam',
+        [
+            'classes' => $classes,
+            'subjects_distributions' => $subjects_distributions,
+            'groups' => $groups,
+            'shifts' => $shifts,
+            'sections' => $sections,
+        ]);
+
+
+
+    }
+
+    public function updated()
+    {
+        $this->total = (int)  $this->qu1 + (int) $this->ex1 + (int) $this->qu2 + (int) $this->ex2   + (int) $this->att;
+    }
+
+    public function add_new_exam_for_student()
+    {
+        $this->validate();
+
+
+        $data = [
+            'students_info_id' => $this->students_info_id,
+            'shifts_id' => $this->shifts_id,
+            'sections_id' => $this->sections_id,
+            'groups_id' => $this->groups_id,
+            'subjects_distributions_id' => $this->subjects_distributions_id,
+            'levels_id' => $this->levels,
+            'classes_id' => $this->classes_id,
+            'qu1' => $this->qu1,
+            'ex1' => $this->ex1,
+            'qu2' => $this->qu2,
+            'ex2' => $this->ex2,
+            'att' => $this->att,
+        ];
+
+        if($this->checkIfExamIsIn()){
+            $this->message_error = "عفوا هذه البيانات موجودة مسبقاً";
+            $this->message_success = "";
+        }else{
+            $this->message_error = "";
+            Exams::create($data);
+            $this->message_success = "تمت الاضافة بنجاح";
+        }
+
+
+    }
+
+
+
+    public function checkIfExamIsIn( ){
+
+        $examToCheck = Exams::where('students_info_id', '=' , $this->students_info_id)->where('subjects_distributions_id',   '=' ,  $this->subjects_distributions_id)->first();
+
+
+        if($examToCheck ){
+            return true ;
+        }else{
+            return false ;
+        }
+    }
+
+
+
+
+    public function getDate()
+    {
+        $exam = Exams::where('students_info_id', '=' , $this->students_info_id)->where('subjects_distributions_id',   '=' ,  $this->subjects_distributions_id)->first();
+
+
+            $this->students_info_id     =  $exam->students_info_id;
+            $this->shifts_id            =  $exam->shifts_id;
+            $this->sections_id          =  $exam->sections_id;
+            $this->groups_id            =  $exam->groups_id;
+            $this->subjects_distributions_id  =  $exam->subjects_distributions_id;
+            $this->qu1                  =  $exam->qu1;
+            $this->ex1                  =  $exam->ex1;
+            $this->qu2                  =  $exam->qu2;
+            $this->ex2                  =  $exam->ex2;
+            $this->att                  =  $exam->att;
+
+
+            $this->updateId = $exam->id;
+    }
+
+}

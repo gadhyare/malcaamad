@@ -1,0 +1,43 @@
+*{
+    font-family: "Dubai";
+    direction: rtl !important ;
+
+}
+.sidebar {
+    background-color: #183153;
+    height: 100vh;
+    width: 270px;
+  }
+  .top-navbar {
+    background-color: #183153 !important;
+  }
+  .top-navbar a {
+    color: #fff !important;
+  }
+  .sidebar li {
+    border-radius: 14px;
+    transition: all 1s;
+  }
+
+  .sidebar li .dropdown-menu,
+  .sidebar .dropdown-item {
+    border-radius: 14px;
+    background-color: #183153 !important;
+    color: #fff !important;
+  }
+
+  .sidebar li:hover,
+  .sidebar li button:hover,
+  .sidebar .dropdown-item:hover {
+    background: #fff !important;
+    color: #183153 !important;
+  }
+  .sidebar li:hover a,
+  .sidebar li:hover button,
+  .sidebar .dropdown-item:hover a {
+    color: #183153 !important;
+  }
+
+  .content {
+    width: 100%;
+  }
